@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Psicólogos al Mundo - Atención profesional personalizada en salud mental. Adultos, adolescentes y orientación a padres.">
+    <title>Psicólogos al Mundo | Salud Mental Premium</title>
+    
+    <!-- Google Fonts: Combinación Elegante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // PALETA DE COLORES PERSONALIZADA (Verde/Teal + Gris + Azul Grisáceo)
+                        brand: {
+                            main: '#0F766E',    // Verde/Teal Profundo
+                            secondary: '#64748B', // Gris Azulado Medio
+                            accent: '#2DD4BF',  // Teal Claro
+                            softBlue: '#CBD5E1', // Azul Claro Grisáceo
+                            bg: '#F8FAFC',      // Off-white
+                            text: '#111827',    // Negro/Gris Muy Oscuro
+                            gray: '#4B5563',    // Gris Neutro
+                            white: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to right, rgba(248, 250, 252, 0.92), rgba(248, 250, 252, 0.75)), url('https://images.unsplash.com/photo-1633519894769-e705b682662c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos Base */
+        html { scroll-behavior: smooth; }
+        body { background-color: #F8FAFC; color: #111827; overflow-x: hidden; }
+        
+        /* Ocultar scrollbar en carruseles móviles pero mantener funcionalidad */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Preloader */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0F766E; z-index: 9999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .loader-bar {
+            width: 0%; height: 2px; background: #2DD4BF; margin-top: 20px;
+            transition: width 2s ease-in-out;
+        }
+        
+        /* Text Selection */
+        ::selection { background: #CBD5E1; color: #0F766E; }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(203, 213, 225, 0.4);
+            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.05);
+            transition: all 0.4s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #0F766E;
+            box-shadow: 0 20px 40px -10px rgba(15, 118, 110, 0.15);
+        }
+
+        /* Floating Buttons Animation */
+        .float-btn {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .float-btn:hover { transform: scale(1.1); }
+        .pulse-animation { animation: pulse-teal 2s infinite; }
+        @keyframes pulse-teal {
+            0% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(45, 212, 191, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
+        }
+
+        /* Accordion Transition */
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-active .faq-content { max-height: 500px; }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-active .faq-icon { transform: rotate(45deg); }
+
+        /* Navbar Glass */
+        .nav-glass {
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(15, 118, 110, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem !important; }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-brand-text">
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="font-serif text-2xl md:text-3xl text-white tracking-widest uppercase fade-in text-center px-4">Psicólogos al Mundo</div>
+        <div class="w-48 bg-brand-secondary/30 h-0.5 mt-4 rounded-full overflow-hidden">
+            <div id="loader-progress" class="h-full bg-brand-accent w-0"></div>
+        </div>
+        <p class="text-white/70 text-xs mt-2 tracking-wider uppercase">Conectando...</p>
+    </div>
+
+    <!-- FLOATING BUTTONS -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+        <a href="https://instagram.com" target="_blank" class="float-btn w-12 h-12 bg-gradient-to-tr from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white text-xl hover:shadow-lg">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/5491167050915" target="_blank" class="float-btn w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center text-white text-2xl pulse-animation hover:shadow-lg">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-40 transition-all duration-300 nav-glass py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="font-serif text-xl md:text-2xl font-bold text-brand-main tracking-wider">
+                PSICÓLOGOS <span class="text-brand-secondary italic">AL MUNDO</span>.
+            </a>
+            
+            <button id="menu-btn" class="md:hidden text-brand-main text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest text-brand-text/70">
+                <a href="#quienes-somos" class="hover:text-brand-main transition">Quiénes Somos</a>
+                <a href="#que-hacemos" class="hover:text-brand-main transition">Qué Hacemos</a>
+                <a href="#testimonios" class="hover:text-brand-main transition">Testimonios</a>
+                <a href="#faq" class="hover:text-brand-main transition">FAQ</a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-brand-bg/95 border-b border-brand-main/10 flex flex-col p-6 space-y-4 md:hidden text-center shadow-xl backdrop-blur-xl">
+            <a href="#quienes-somos" class="block text-brand-main hover:text-brand-secondary uppercase tracking-wider text-sm py-2">Quiénes Somos</a>
+            <a href="#que-hacemos" class="block text-brand-main hover:text-brand-secondary uppercase tracking-wider text-sm py-2">Qué Hacemos</a>
+            <a href="#testimonios" class="block text-brand-main hover:text-brand-secondary uppercase tracking-wider text-sm py-2">Testimonios</a>
+            <a href="https://wa.me/5491167050915" class="block text-brand-main font-bold border border-brand-main py-2 rounded-full uppercase text-sm mt-4 bg-white">Contactar</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative min-h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed">
+        <div class="container mx-auto px-6 text-center mt-16 relative z-10">
+            <p class="text-brand-secondary font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base animate-fade-in-down" data-aos="fade-down">Salud Mental & Bienestar</p>
+            <h1 class="hero-title font-serif text-5xl md:text-7xl font-bold text-brand-main leading-tight mb-8" data-aos="zoom-in" data-aos-delay="200">
+                Comprometidos con <br>
+                <span class="text-brand-secondary italic">Tu Estabilidad Emocional</span>
+            </h1>
+            <p class="text-brand-gray max-w-2xl mx-auto text-lg md:text-xl mb-10 leading-relaxed font-normal" data-aos="fade-up" data-aos-delay="400">
+                Un equipo de profesionales altamente capacitados, listos para acompañarte en el proceso hacia una mejor versión de vos mismo.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="600">
+                <a href="https://wa.me/5491167050915" class="bg-brand-main text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brand-secondary transition-colors duration-300 shadow-xl shadow-brand-main/20">
+                    Contactar Ahora
+                </a>
+                <a href="#que-hacemos" class="bg-white border border-brand-softBlue text-brand-main px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-brand-bg hover:shadow-lg transition-all duration-300">
+                    Ver Especialidades
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-brand-secondary/50">
+            <i class="fa-solid fa-chevron-down text-2xl"></i>
+        </div>
+    </header>
+
+    <!-- QUIÉNES SOMOS SECTION -->
+    <section id="quienes-somos" class="py-24 bg-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-softBlue/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="w-full md:w-1/2 relative" data-aos="fade-right">
+                    <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white group">
+                        <!-- Placeholder para imagen -->
+                        <div class="aspect-[4/3] bg-gray-200 relative flex items-center justify-center">
+                             <span class="text-brand-secondary/50 font-serif italic text-lg">[ Espacio para imagen ]</span>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-brand-secondary/30 rounded-2xl -z-0"></div>
+                </div>
+
+                <div class="w-full md:w-1/2" data-aos="fade-left">
+                    <h4 class="text-brand-secondary uppercase tracking-widest font-bold text-sm mb-4">// ¿Quiénes Somos?</h4>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-main mb-6 leading-tight">Profesionales comprometidos <br><span class="italic text-brand-gray">con tu historia.</span></h2>
+                    
+                    <p class="text-brand-text leading-relaxed mb-6 font-light text-lg">
+                        En <strong class="text-brand-main">Psicólogos al Mundo</strong>, brindamos atención personalizada a quienes atraviesan dificultades psicoemocionales. Creemos en un enfoque humano y cercano.
+                    </p>
+                    <p class="text-brand-gray leading-relaxed mb-8 border-l-4 border-brand-softBlue pl-6">
+                        Nuestra propuesta es acompañarte a superar obstáculos y encontrar la estabilidad emocional que necesitas, con un equipo altamente capacitado en psicoanálisis.
+                    </p>
+
+                    <!-- Nuevo Botón CTA -->
+                    <div class="mt-8">
+                        <a href="#contacto" class="inline-block bg-brand-main text-white font-bold uppercase tracking-wider px-8 py-3 rounded-lg hover:bg-brand-secondary transition duration-300 shadow-lg w-full md:w-auto text-center">
+                            Solicitar Entrevista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUÉ HACEMOS (Servicios - Carousel Mobile) -->
+    <section id="que-hacemos" class="py-24 bg-brand-bg overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 max-w-3xl mx-auto" data-aos="fade-up">
+                <h4 class="text-brand-main/60 uppercase tracking-widest font-bold text-sm mb-2">// Qué Hacemos</h4>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-main mb-4">Atención Especializada</h2>
+                <div class="w-24 h-1 bg-brand-softBlue mx-auto rounded-full"></div>
+                <!-- Mobile Hint -->
+                <p class="md:hidden text-xs text-brand-secondary mt-4 animate-pulse"><i class="fa-solid fa-arrow-right mr-1"></i> Deslizá para ver más</p>
+            </div>
+
+            <!-- Contenedor Carrusel en Móvil / Grilla en Desktop -->
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible no-scrollbar -mx-6 px-6 md:mx-auto md:px-0 mb-8">
+                
+                <!-- Adolescentes -->
+                <div class="min-w-[85vw] md:min-w-0 snap-center glass-card p-10 rounded-2xl relative group flex flex-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="absolute top-6 right-6 p-2 bg-brand-softBlue/30 rounded-lg text-brand-main group-hover:bg-brand-main group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-headset text-2xl"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-brand-main mb-4 mt-2">Adolescentes</h3>
+                    <p class="text-brand-gray text-sm leading-relaxed mb-6 flex-grow">
+                        Espacio de escucha y contención para jóvenes que enfrentan los desafíos únicos de su etapa de desarrollo.
+                    </p>
+                    <a href="#" class="text-brand-main font-bold text-sm uppercase tracking-wider hover:text-brand-secondary transition">Más Información &rarr;</a>
+                </div>
+
+                <!-- Adultos -->
+                <div class="min-w-[85vw] md:min-w-0 snap-center glass-card p-10 rounded-2xl relative group flex flex-col border-t-4 border-brand-main" data-aos="fade-up" data-aos-delay="150">
+                    <div class="absolute top-6 right-6 p-2 bg-brand-softBlue/30 rounded-lg text-brand-main group-hover:bg-brand-main group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-user-shield text-2xl"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-brand-main mb-4 mt-2">Adultos</h3>
+                    <p class="text-brand-gray text-sm leading-relaxed mb-6 flex-grow">
+                        Psicoanálisis enfocado en el crecimiento personal, la superación de obstáculos y la estabilidad emocional.
+                    </p>
+                    <a href="#" class="text-brand-main font-bold text-sm uppercase tracking-wider hover:text-brand-secondary transition">Más Información &rarr;</a>
+                </div>
+
+                <!-- Padres -->
+                <div class="min-w-[85vw] md:min-w-0 snap-center glass-card p-10 rounded-2xl relative group flex flex-col" data-aos="fade-up" data-aos-delay="300">
+                    <div class="absolute top-6 right-6 p-2 bg-brand-softBlue/30 rounded-lg text-brand-main group-hover:bg-brand-main group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-hands-holding-child text-2xl"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-brand-main mb-4 mt-2">Orientación a Padres</h3>
+                    <p class="text-brand-gray text-sm leading-relaxed mb-6 flex-grow">
+                        Herramientas y guía profesional para enfrentar los desafíos de la crianza con confianza y tranquilidad.
+                    </p>
+                    <a href="#" class="text-brand-main font-bold text-sm uppercase tracking-wider hover:text-brand-secondary transition">Más Información &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Nuevo Botón CTA General para Servicios -->
+            <div class="text-center mt-4" data-aos="fade-up">
+                <a href="https://wa.me/5491167050915" class="inline-block bg-white border-2 border-brand-main text-brand-main font-bold uppercase tracking-wider px-8 py-3 rounded-lg hover:bg-brand-main hover:text-white transition duration-300 shadow-md w-full md:w-auto">
+                    Consultar por mi caso particular
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIOS (Carousel Mobile) -->
+    <section id="testimonios" class="py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <h2 class="font-serif text-4xl text-center text-brand-main mb-4" data-aos="fade-up">Experiencias Reales</h2>
+            <p class="md:hidden text-xs text-center text-brand-secondary mb-12 animate-pulse"><i class="fa-solid fa-arrow-right mr-1"></i> Deslizá para leer</p>
+            <div class="hidden md:block h-12"></div> <!-- Spacer for desktop -->
+            
+            <!-- Contenedor Carrusel en Móvil / Grilla en Desktop -->
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible no-scrollbar -mx-6 px-6 md:mx-auto md:px-0 mb-8">
+                
+                <!-- Review 1 -->
+                <div class="min-w-[85vw] md:min-w-0 snap-center bg-brand-bg p-8 rounded-xl shadow-sm hover:shadow-md transition duration-300" data-aos="zoom-in-up">
+                    <div class="text-brand-main mb-4 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-gray italic mb-6">"Encontrar este espacio fue clave. Me sentí escuchado y comprendido desde la primera sesión."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-brand-main text-white rounded-full mr-3 flex items-center justify-center font-bold text-xs">JR</div>
+                        <div>
+                            <h5 class="text-brand-main font-bold text-sm">Javier R.</h5>
+                            <p class="text-brand-secondary text-xs">Paciente</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="min-w-[85vw] md:min-w-0 snap-center bg-brand-bg p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300 transform md:-translate-y-4" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="text-brand-main mb-4 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-gray italic mb-6">"La orientación para padres nos dio las herramientas para mejorar la comunicación en casa."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-brand-secondary text-white rounded-full mr-3 flex items-center justify-center font-bold text-xs">ML</div>
+                        <div>
+                            <h5 class="text-brand-main font-bold text-sm">María L.</h5>
+                            <p class="text-brand-secondary text-xs">Familia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="min-w-[85vw] md:min-w-0 snap-center bg-brand-bg p-8 rounded-xl shadow-sm hover:shadow-md transition duration-300" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="text-brand-main mb-4 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-gray italic mb-6">"Un enfoque muy humano y serio. Excelentes profesionales, lo recomiendo totalmente."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-brand-main text-white rounded-full mr-3 flex items-center justify-center font-bold text-xs">SF</div>
+                        <div>
+                            <h5 class="text-brand-main font-bold text-sm">Santiago F.</h5>
+                            <p class="text-brand-secondary text-xs">Paciente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nuevo Botón CTA Testimonios -->
+            <div class="text-center mt-6" data-aos="fade-up">
+                <a href="#contacto" class="inline-block bg-brand-accent text-brand-text font-bold uppercase tracking-wider px-10 py-4 rounded-full hover:bg-brand-secondary hover:text-white transition duration-300 shadow-xl w-full md:w-auto transform hover:scale-105 text-center">
+                    Quiero empezar mi cambio hoy
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 bg-brand-main text-white">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 class="font-serif text-4xl text-center mb-12" data-aos="fade-up">Preguntas Frecuentes</h2>
+
+            <div class="space-y-4" data-aos="fade-up">
+                <div class="faq-item border-b border-brand-secondary/30 pb-4">
+                    <button class="w-full flex justify-between items-center text-left py-4 focus:outline-none group">
+                        <span class="text-lg font-medium group-hover:text-brand-accent transition">¿Atienden online o presencial?</span>
+                        <i class="fa-solid fa-plus text-brand-accent faq-icon"></i>
+                    </button>
+                    <div class="faq-content">
+                        <p class="text-white/80 py-2 text-sm leading-relaxed">Ofrecemos ambas modalidades según la necesidad del paciente y la disponibilidad del profesional.</p>
+                    </div>
+                </div>
+                <div class="faq-item border-b border-brand-secondary/30 pb-4">
+                    <button class="w-full flex justify-between items-center text-left py-4 focus:outline-none group">
+                        <span class="text-lg font-medium group-hover:text-brand-accent transition">¿Cómo agendo una entrevista?</span>
+                        <i class="fa-solid fa-plus text-brand-accent faq-icon"></i>
+                    </button>
+                    <div class="faq-content">
+                        <p class="text-white/80 py-2 text-sm leading-relaxed">Escribinos directamente por WhatsApp (botón flotante). Te responderemos a la brevedad para coordinar.</p>
+                    </div>
+                </div>
+                <div class="faq-item border-b border-brand-secondary/30 pb-4">
+                    <button class="w-full flex justify-between items-center text-left py-4 focus:outline-none group">
+                        <span class="text-lg font-medium group-hover:text-brand-accent transition">¿Trabajan con obras sociales?</span>
+                        <i class="fa-solid fa-plus text-brand-accent faq-icon"></i>
+                    </button>
+                    <div class="faq-content">
+                        <p class="text-white/80 py-2 text-sm leading-relaxed">Trabajamos de forma particular para garantizar la personalización, pero emitimos factura para reintegros.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nuevo Botón CTA FAQ -->
+            <div class="text-center mt-12" data-aos="fade-up">
+                <p class="mb-4 text-white/80">¿Tenés otra duda?</p>
+                <a href="https://wa.me/5491167050915" class="inline-block bg-transparent border border-white text-white font-bold uppercase tracking-wider px-8 py-3 rounded-lg hover:bg-white hover:text-brand-main transition duration-300 w-full md:w-auto">
+                    Hablar con un secretario
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO (Nueva Sección) -->
+    <section id="contacto" class="py-24 bg-white relative">
+        <div class="container mx-auto px-6">
+            <h2 class="font-serif text-4xl text-center text-brand-main mb-16" data-aos="fade-up">Contacto & Ubicación</h2>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- Formulario -->
+                <div class="w-full lg:w-1/2" data-aos="fade-right">
+                    <div class="bg-brand-bg p-8 rounded-2xl shadow-lg border border-brand-softBlue/30 h-full">
+                        <h3 class="font-serif text-2xl text-brand-main mb-6">Envianos un mensaje</h3>
+                        <p class="text-brand-gray text-sm mb-6">Completá el formulario y te responderemos directamente por WhatsApp.</p>
+                        
+                        <form id="whatsapp-form" class="space-y-6">
+                            <div>
+                                <label for="nombre" class="block text-sm font-bold text-brand-secondary uppercase tracking-wider mb-2">Nombre Completo</label>
+                                <input type="text" id="nombre" required class="w-full bg-white border border-brand-softBlue rounded-lg px-4 py-3 focus:outline-none focus:border-brand-main transition text-brand-text" placeholder="Tu nombre">
+                            </div>
+                            <div>
+                                <label for="mensaje" class="block text-sm font-bold text-brand-secondary uppercase tracking-wider mb-2">Mensaje</label>
+                                <textarea id="mensaje" rows="4" required class="w-full bg-white border border-brand-softBlue rounded-lg px-4 py-3 focus:outline-none focus:border-brand-main transition text-brand-text" placeholder="¿En qué podemos ayudarte?"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-brand-main text-white font-bold uppercase tracking-wider py-4 rounded-lg hover:bg-brand-secondary transition duration-300 shadow-lg flex items-center justify-center gap-2 group">
+                                Enviar por WhatsApp 
+                                <i class="fa-brands fa-whatsapp text-xl group-hover:scale-110 transition-transform"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Info & Mapa -->
+                <div class="w-full lg:w-1/2 space-y-6" data-aos="fade-left">
+                    <!-- Info Blocks -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Horarios -->
+                        <div class="bg-brand-bg p-6 rounded-xl shadow-sm border border-brand-softBlue/20 hover:border-brand-main/30 transition">
+                            <i class="fa-solid fa-clock text-3xl text-brand-accent mb-4"></i>
+                            <h4 class="font-serif text-xl text-brand-main mb-2">Horarios</h4>
+                            <p class="text-brand-gray text-sm">Lunes a Viernes:<br><span class="font-bold">09:00 - 20:00 hs</span></p>
+                            <p class="text-brand-gray text-sm mt-2">Sábados:<br><span class="font-bold">09:00 - 13:00 hs</span></p>
+                        </div>
+                        <!-- Dirección -->
+                        <div class="bg-brand-bg p-6 rounded-xl shadow-sm border border-brand-softBlue/20 hover:border-brand-main/30 transition">
+                            <i class="fa-solid fa-location-dot text-3xl text-brand-accent mb-4"></i>
+                            <h4 class="font-serif text-xl text-brand-main mb-2">Consultorio</h4>
+                            <p class="text-brand-gray text-sm">Av. Corrientes 1234<br>Buenos Aires, Argentina</p>
+                            <a href="#" class="text-brand-main text-xs font-bold uppercase tracking-wider mt-3 inline-block hover:text-brand-secondary border-b border-brand-main pb-0.5">Ver en Google Maps</a>
+                        </div>
+                    </div>
+
+                    <!-- Mapa Embed -->
+                    <div class="w-full h-80 rounded-2xl overflow-hidden shadow-lg border border-brand-softBlue/30 relative bg-gray-200">
+                        <!-- Mapa de ejemplo (Buenos Aires) -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.0168878894506!2d-58.38157048477038!3d-34.603738880459405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4aa9f0a6da5edb%3A0x11bead4e234e558b!2sObelisco!5e0!3m2!1ses-419!2sar!4v1624451234567!5m2!1ses-419!2sar" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 py-16 text-white border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                <div class="text-center md:text-left">
+                    <h3 class="font-serif text-2xl font-bold tracking-wider mb-2">PSICÓLOGOS<span class="text-brand-secondary"> AL MUNDO</span>.</h3>
+                    <p class="text-gray-500 text-sm max-w-xs">Profesionales en Salud Mental.</p>
+                </div>
+                <div class="flex gap-8 text-sm text-gray-400 uppercase tracking-wider">
+                    <a href="#quienes-somos" class="hover:text-brand-secondary transition">Nosotros</a>
+                    <a href="#que-hacemos" class="hover:text-brand-secondary transition">Servicios</a>
+                    <a href="https://instagram.com" class="hover:text-brand-secondary transition">Instagram</a>
+                </div>
+                <div class="text-center md:text-right text-gray-400 text-sm">
+                    <p class="mb-1">Buenos Aires, Argentina</p>
+                    <p class="hover:text-brand-secondary transition cursor-pointer">contacto@psicologosalmundo.com</p>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-600 text-xs">
+                &copy; 2024 Psicólogos al Mundo. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true, offset: 80 });
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const progress = document.getElementById('loader-progress');
+            progress.style.width = '100%';
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 800);
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // FAQ
+        document.querySelectorAll('.faq-item button').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('faq-active');
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('faq-active');
+                    i.querySelector('i').classList.replace('fa-minus', 'fa-plus');
+                    i.querySelector('i').classList.remove('rotate-45');
+                });
+                if (!isActive) {
+                    item.classList.add('faq-active');
+                    button.querySelector('i').classList.replace('fa-plus', 'fa-minus');
+                }
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                mobileMenu.classList.add('hidden');
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Lógica del Formulario de WhatsApp
+        document.getElementById('whatsapp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const mensaje = document.getElementById('mensaje').value;
+            const telefono = "5491167050915"; // TU NÚMERO AQUÍ (Formato internacional sin +)
+
+            // Crear link de WhatsApp
+            const url = `https://wa.me/${telefono}?text=*Nueva Consulta Web*%0A%0A*Nombre:* ${encodeURIComponent(nombre)}%0A*Mensaje:* ${encodeURIComponent(mensaje)}`;
+            
+            // Abrir en nueva pestaña
+            window.open(url, '_blank');
+        });
+    </script>
+</body>
+</html>
